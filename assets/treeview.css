@@ -1,0 +1,199 @@
+/******************************************************************************
+ * Page variables
+ *****************************************************************************/
+
+ html {
+  --treeview-node-border-width: 2px;
+  --treeview-node-border-radius: 5px;
+
+  --treeview-page-color: var(--editor-wiki-link-page-color);
+  --treeview-page-background-color: var(--editor-wiki-link-page-background-color);
+  --treeview-page-border-color: var(--treeview-page-background-color);
+
+  --treeview-folder-color: var(--editor-wiki-link-page-missing-color);
+  --treeview-folder-background-color: var(--treeview-page-background-color);
+  --treeview-folder-border-color: var(--treeview-page-background-color);
+
+  --treeview-current-page-color: #eee;
+	--treeview-current-page-background-color: var(--ui-accent-color);
+  --treeview-current-page-border-color: var(--treeview-page-border-color);
+}
+
+.treeview-root {
+  /* SortableTree variables */
+  --st-label-height: auto;
+  --st-subnodes-padding-left: 1.25rem;
+  --st-collapse-icon-height: 2.1rem;
+  --st-collapse-icon-width: 1.25rem;
+  --st-collapse-icon-size: 1rem;
+}
+
+/******************************************************************************
+ * Page styles
+ *****************************************************************************/
+
+html, body {
+  background-color: var(--root-background-color);
+  padding: 0;
+  margin: 0;
+  overflow: initial !important;
+}
+
+.treeview-root {
+  background-color: var(--root-background-color);
+  color: var(--root-color);
+  font-family: var(--ui-font);
+}
+
+/******************************************************************************
+ * Header styles
+ *
+ * Action styles are meant to mimic the Top Bar icons (`sb-actions`)
+ *****************************************************************************/
+
+.treeview-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 0.5rem 0.5rem 0rem;
+  background-color: var(--root-background-color);
+}
+
+.treeview-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: var(--editor-widget-background-color);
+  border: var(--top-border-color) 1px solid;
+  border-radius: 5px;
+  color: var(--top-color);
+}
+
+.treeview-actions-left,
+.treeview-actions-right {
+  display: flex;
+}
+
+.treeview-actions-left {
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.treeview-actions button {
+  display: flex;
+  align-items: center;
+  margin: 3px;
+  padding: 5px;
+  background-color: var(--action-button-background-color);
+  border: 0;
+  color: var(--action-button-color);
+  cursor: pointer;
+}
+
+.treeview-actions button:hover {
+  color: var(--action-button-hover-color);
+}
+
+.treeview-actions button:hover {
+  color: var(--action-button-active-color);
+}
+
+.treeview-actions button > svg {
+  height: 18px;
+  width: 18px;
+}
+
+/******************************************************************************
+ * SortableTree styles
+ *****************************************************************************/
+
+.tree {
+	display: flex;
+	flex-direction: column;
+  margin: 0.25rem 0.5rem 1rem;
+  padding-left: var(--st-subnodes-padding-left);
+}
+
+.tree__label {
+  display: flex;
+  padding: 2px;
+}
+
+.tree__label:after {
+  content: ' ';
+  position: absolute;
+  z-index: 4;
+  inset: calc(var(--treeview-node-border-width) * -1) var(--treeview-node-border-width);
+  border-top: calc(var(--treeview-node-border-width) * 2) solid transparent;
+  border-bottom: calc(var(--treeview-node-border-width) * 2) solid transparent;
+  transition: border-color 0.2s;
+  pointer-events: none;
+}
+
+.tree__node--drop-before > .tree__label:after {
+  border-top-color: var(--ui-accent-color);
+}
+
+.tree__node--drop-after > .tree__label:after {
+  border-bottom-color: var(--ui-accent-color);
+}
+
+.tree__label > span {
+  overflow: hidden;
+  padding: 0 5px;
+  border-color: transparent;
+  border-width: var(--treeview-node-border-width);
+  border-style: solid;
+  border-radius: var(--treeview-node-border-radius);
+  cursor: pointer;
+  font-family: var(--editor-font);
+  font-size: 18px;
+  line-height: 1.4;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree__label > span[data-node-type="page"] {
+  background-color: var(--treeview-page-background-color);
+  border-color: var(--treeview-page-border-color);
+  color: var(--treeview-page-color);
+}
+
+.tree__label > span[data-node-type="folder"] {
+  background-color: var(--treeview-folder-background-color);
+  border-color: var(--treeview-folder-border-color);
+  color: var(--treeview-folder-color);
+}
+
+
+.tree__label > span[data-current-page="true"] {
+	background-color: var(--treeview-current-page-background-color);
+  border-color: var(--treeview-current-page-border-color);
+	color: var(--treeview-current-page-color);
+}
+
+.tree__collapse {
+  color: var(--editor-command-button-color);
+}
+
+.tree__node--dragging {
+  margin: calc(var(--treeview-node-border-width) * -1);
+  border: var(--treeview-node-border-width) dashed var(--subtle-color);
+  border-radius: var(--treeview-node-border-radius);
+  cursor: move !important;
+}
+
+.tree__node--dragging .tree__label > span {
+  opacity: 0.75;
+}
+
+.tree__node--drop-inside > .tree__label > span {
+  z-index: 3;
+  background-color: var(--subtle-background-color);
+  border-color: var(--ui-accent-color);
+}
+
+.tree__node--drop-inside > .tree__label > span[data-current-page="true"] {
+	color: var(--treeview-page-color);
+}
